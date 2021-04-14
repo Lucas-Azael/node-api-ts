@@ -5,5 +5,5 @@ beforeAll(() => {
     const server = new SetupServer();
     server.init();
 
-    global.resquestTest = supertest(server.getApp());
+    global.testRequest = supertest(server.getApp());
 });
