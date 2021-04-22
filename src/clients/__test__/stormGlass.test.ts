@@ -6,7 +6,10 @@ import * as HTTPUtil from '@src/util/request';
 jest.mock('@src/util/request');
 
 describe('StormGlass', () => {
-    //Adicionando ao jest os tipos do axios
+    //Mocked static methods
+    const MockedRequestClass = HTTPUtil.Request as jest.Mocked<typeof HTTPUtil.Request>
+
+    //Mocked class request
     const mockedRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>
     it('Should return the normalized forecast from the StormGlass service', async() => {
         const lat = -33.792726;
@@ -57,7 +60,9 @@ describe('StormGlass', () => {
       it('should get an StormGlassResponseError when the StormGlass service responds with error', async () => {
         const lat = -33.792726;
         const lng = 151.289824;
-    
+        
+        MockedRequestClass.isRequestError.mockReturnValue(true);
+        
         mockedRequest.get.mockRejectedValue({
           response: {
             status: 429,
